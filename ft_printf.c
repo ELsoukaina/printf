@@ -6,12 +6,27 @@
 /*   By: sel-jala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:34:58 by sel-jala          #+#    #+#             */
-/*   Updated: 2022/02/22 19:32:02 by sel-jala         ###   ########.fr       */
+/*   Updated: 2022/02/24 04:49:16 by sel-jala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-int	ft_printf(char	*str, ...)
+int	ft_conv(const char *str, int len, va_list list)
+{
+	if (*str == 's' || *str == 'c' || *str == '%')
+		len += ft_printstring(str, list);
+	else if (*str == 'i' || *str == 'd')
+		len += ft_printnumber(list);
+	else if (*str == 'u')
+		len += ft_printunsnumber(list);
+	else if (*str == 'x' || *str == 'X')
+		len += ft_printhex(str, list);
+	else if (*str == 'p')
+		len += ft_printp(list);
+	return (len);
+}
+
+int	ft_printf(const char	*str, ...)
 {
 	va_list	list;
 	int		len;
@@ -23,14 +38,7 @@ int	ft_printf(char	*str, ...)
 		if (*str == '%')
 		{
 			str++;
-			if (*str == 's' || *str == 'c' || *str == '%')
-				len += ft_printstring(str, list);
-			else if (*str == 'i' || *str == 'd')
-				len += ft_printnumber(list);
-			else if (*str == 'u')
-				len += ft_printunsnumber(list);
-			else if (*str == 'x' || *str == 'X' || *str == 'p')
-				len += ft_printphex(str, list);
+			len = ft_conv(str, len, list);
 		}
 		else
 			len += write(1, str, 1);

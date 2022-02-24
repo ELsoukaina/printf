@@ -1,5 +1,5 @@
 NAME = libftprintf.a
-NAMELIBFT = ./libft/libft.a
+NAMELIBFT = libft/libft.a
 
 SRCS =  ft_printf.c \
 		ft_itoahex.c \
@@ -10,32 +10,41 @@ SRCS =  ft_printf.c \
 		ft_printstring.c \
 		ft_printnumber.c \
 		ft_printunsnumber.c \
-		ft_printphex.c \
+		ft_printhex.c \
+		ft_printp.c \
 
 
-CC = gcc
-FLAGS = -Wall -Wextra -Werror
-INCLUDES = ft_printf.h
-OBJS = $(SRCS:.c=.o)
+OBJ= $(SRCS:.c=.o)
+FLG= -Wall -Wextra -Werror
+INCLUDE= ft_printf.h
 
-all =  $(NAME)
+all: $(NAMELIBFT) $(NAME)
 
-# $(NAMELIBFT):
-# 	make -C libft/
+$(NAME): $(OBJ) $(INCLUDE)
+	@cp libft/libft.a $(NAME)
+	@ar rcs $(NAME) $(OBJ)
 
-$(NAME): $(OBJS)
-	cp libft/libft.a .
-	ar rcs $(NAME) $(OBJS)
+$(NAMELIBFT): 
+	make -C libft/ all
 
-%.o: %.c $(INCLUDE)
-		$(CC) -c $(FLAGS) $< -I $(INCLUDE)
+clean:
+	@/bin/rm -f $(OBJ)
+	@echo "clean"
 
-clean :
-	# $(MAKE) clean -C ./libft
-	rm -rf $(OBJS)
+cleanlibft:
+	@make -C libft/ clean
 
-fclean : clean
-	# $(MAKE) fclean -C ./libft
-	rm -rf $(NAME)
+fclean: clean
+	@/bin/rm -f $(NAME)
+	@echo "fclean"
 
-re : fclean all
+fcleanlibft:
+	@make -C libft/ fclean
+
+%.o: %.c 
+	gcc $(FLG) -c $< -I $(INCLUDE) 
+
+re : relibft fclean all
+
+relibft:
+	@make -C libft/ re

@@ -15,14 +15,15 @@
 # include "libft/libft.h"
 # include <stdarg.h>
 
-char	*ft_itoahex(long nbr, int mode);
+char	*ft_itoahex(unsigned long int nbr, int mode);
 char	*ft_strrev(char *str);
 char	ft_printhexmaj(int result);
 char	ft_printhexmin(int result);
 char	*ft_chartostr(char c);
-int		ft_printstring(char *str, va_list list);
+int		ft_printstring(const char *p, va_list list);
 int		ft_printnumber(va_list list);
 int		ft_printunsnumber(va_list list);
-int		ft_printphex(char *str, va_list list);
-int		ft_printf(char *str, ...);
+int		ft_printhex(const char *p, va_list list);
+int		ft_printp(va_list list);
+int		ft_printf(const char *str, ...);
 #endif

@@ -15,7 +15,12 @@
 int	ft_printnumber(va_list list)
 {
 	long	number;
+	int		len;
+	char	*res;
 
 	number = (long)va_arg(list, int);
-	return (write(1, ft_itoa(number), ft_strlen(ft_itoa(number))));
+	res = ft_itoa(number);
+	len = write(1, res, ft_strlen(res));
+	free(res);
+	return (len);
 }

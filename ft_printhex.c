@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printString.c                                   :+:      :+:    :+:   */
+/*   ft_printPHex.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sel-jala <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/19 23:35:25 by sel-jala          #+#    #+#             */
-/*   Updated: 2022/02/22 21:56:48 by sel-jala         ###   ########.fr       */
+/*   Created: 2022/02/19 23:35:02 by sel-jala          #+#    #+#             */
+/*   Updated: 2022/02/22 21:54:22 by sel-jala         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printstring(const	char	*p, va_list	list)
+int	ft_printhex(const	char	*p, va_list	list)
 {
-	char	*s;
-	int		res;
-	char	*str;
+	unsigned int	number;
+	int				len;
+	char			*str;
+	char			*res0;
+	char			*res1;
 
-	res = 0;
+	number = va_arg(list, unsigned long);
+	len = 0;
 	str = (char *)p;
-	if (*str == 's')
-	{
-		s = va_arg(list, char *);
-		if (s != NULL)
-			res = write(1, s, ft_strlen(s));
-		else
-			res = write(1, "(null)", ft_strlen("(null)"));
-	}
-	else if (*str == 'c')
-	{
-		s = ft_chartostr(va_arg(list, int));
-		res = write(1, s, 1);
-		free(s);
-	}
-	else if (*str == '%')
-		res = write(1, "%", 1);
-	return (res);
+	res0 = ft_itoahex(number, 0);
+	res1 = ft_itoahex(number, 1);
+	if (*str == 'x')
+		len = write(1, res0, ft_strlen(res0));
+	else if (*str == 'X')
+		len = write(1, res1, ft_strlen(res1));
+	free(res0);
+	free(res1);
+	return (len);
 }

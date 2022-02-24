@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*ft_itoahex(long nbr, int mode)
+char	*ft_itoahex(unsigned long int nbr, int mode)
 {
 	char	*result;
 	char	*tmp;
@@ -29,7 +29,10 @@ char	*ft_itoahex(long nbr, int mode)
 		else if (mode == 0)
 			tmpchar = ft_chartostr(ft_printhexmin(nbr % 16));
 		nbr /= 16;
-		result = (tmp) ? ft_strjoin(tmp, tmpchar) : ft_strdup(tmpchar);
+		if (tmp == NULL)
+			result = ft_strdup(tmpchar);
+		else
+			result = ft_strjoin(tmp, tmpchar);
 		free(tmpchar);
 		free(tmp);
 	}
